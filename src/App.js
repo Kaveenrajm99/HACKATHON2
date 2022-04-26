@@ -1,25 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import Content from './content';
+import Products from './Products';
+import Contact from './Contact';
+import Login from './Login';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { Link } from "react-router-dom"
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <BrowserRouter>
+        <div className='container-fluid text-center '>
+          <a className="navbar-brand fs-1 fw-bold fst-italic text-dark  ">Rental Groups For Your Needs</a>
+          <div className='col-12'>
+            <Link to={"/home"} class="btn btn-light fw-bold m-2" aria-current="page" >Home</Link>
+            <Link to={"/products"} class="btn btn-light fw-bold m-2">Products</Link>
+            <Link to={"/contact"} className="btn btn-light fw-bold m-2" >Contact</Link>
+            <Link to={"/login"} className="btn btn-light fw-bold m-2" >Login</Link></div>
+          <Routes>
+            <Route path="/home" element={<Content />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+
+          </Routes>
+
+        </div>
+
+      </BrowserRouter>
+    </>
+  )
 }
 
 export default App;
