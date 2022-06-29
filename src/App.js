@@ -9,6 +9,8 @@ import {
   Route,
 } from "react-router-dom";
 import { Link } from "react-router-dom"
+import Booking from './Booking';
+import Register from './Register';
 
 
 
@@ -28,6 +30,8 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/bookings" element={<Booking />} />
 
           </Routes>
 
