@@ -21,15 +21,16 @@ function App() {
         <div className='container-fluid text-center '>
           <a className="navbar-brand fs-1 fw-bold fst-italic text-dark  ">Rental Groups For Your Needs</a>
           <div className='col-12'>
-            <Link to={"/"} class="btn btn-light fw-bold m-2" aria-current="page" >Home</Link>
+            <Link to={"/"} class="btn btn-light fw-bold m-2" aria-current="page" >Login</Link>
+            <Link to={"/home"} class="btn btn-light fw-bold m-2" aria-current="page" >Home</Link>
             <Link to={"/products"} class="btn btn-light fw-bold m-2">Products</Link>
             <Link to={"/contact"} className="btn btn-light fw-bold m-2" >Contact</Link>
-            <Link to={"/login"} className="btn btn-light fw-bold m-2" >Login</Link></div>
+          </div>
           <Routes>
-            <Route path="/" element={<Content />} />
+            <Route path="/home" element={<Content />} />
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/bookings" element={<Booking />} />
 

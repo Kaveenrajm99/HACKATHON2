@@ -1,48 +1,80 @@
-import React from 'react'
-import { Link } from "react-router-dom"
+import axios from 'axios';
+import { useFormik } from 'formik';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Login = () => {
+
+function Login() {
+  let navigate = useNavigate();
+  let formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validate: (values) => {
+      const errors = {}
+      if (!values.username) {
+        errors.username = "Email Missing";
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.username)) {
+        errors.username = 'Invalid email address';
+      }
+      if (!values.password) {
+        errors.password = "Password  missing";
+      }
+      return errors;
+    },
+    onSubmit: async (values) => {
+      try {
+        let loginData = await axios.post('https://neosmile-crud.herokuapp.com/login', values);
+        window.localStorage.setItem('myapptoken', loginData.data.token);
+        { loginData.data.message === "login sucessfull" ? navigate('/home') : alert("Does not match") }
+      } catch (error) {
+        console.log(error);
+        alert('Something went wrong');
+      }
+    },
+  });
   return (
-      <div className='container col-sm-12 col-lg-4 '>
-          <form>
-  {/* <!-- Email input --> */}
-  <div class="form-outline mb-4">
-    <input type="email" id="email" class="form-control" />
-    <label class="form-label fw-bold" for="form2Example1">Email address</label>
-  </div>
+    <div className="container col-sm-12 col-lg-4 ">
+      <form onSubmit={formik.handleSubmit}>
+        <div className="mx-auto flex-column row fw-bold">
+          <div >
+            <label>Email <span style={{ color: "red" }}>{formik.errors.username}</span></label>
+            <input
+              type={'email'}
+              className="form-control"
+              name="username"
+              id="username"
+              onChange={formik.handleChange}
+              value={formik.values.username}
+            />
+          </div>
+          <div >
+            <label >Password <span style={{ color: "red" }}>{formik.errors.password}</span></label>
+            <input
+              type={'password'}
+              className="form-control"
+              name="password"
+              id="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+          </div>
+          <div >
+            <div className='mt-2'>
+              <input disabled={Object.keys(formik.errors).length !== 0}
+                type={'submit'}
+                className="btn btn-primary"
+                value={'Login'} />
 
-  {/* <!-- Password input --> */}
-  <div class="form-outline mb-4">
-    <input type="password" id="password" class="form-control" />
-    <label class="form-label fw-bold" for="form2Example2">Password</label>
-  </div>
+              <Link to={'/register'} className="btn btn-primary m-1 ">Register</Link>
+            </div>
+          </div>
 
-  {/* <!-- 2 column grid layout for inline styling --> */}
-  <div class="row mb-4">
-    <div class="col d-flex justify-content-center">
-      {/* <!-- Checkbox --> */}
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="form2Example31"  />
-        <label class="form-check-label" for="form2Example31"> Remember me </label>
-      </div>
+        </div>
+      </form>
     </div>
-
-    <div class="col">
-      {/* <!-- Simple link --> */}
-      <a href="#!">Forgot password?</a>
-    </div>
-  </div>
-
-  {/* <!-- Submit button --> */}
-  <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
-
-  {/* <!-- Register buttons --> */}
-        <div class="text-center fs-bold">
-          <Link to={"/register"} >Register for Admin</Link>
-      </div>
-</form>
-</div>
-  )
+  );
 }
 
-export default Login
+export default Login;
